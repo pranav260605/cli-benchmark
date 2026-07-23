@@ -1,0 +1,22 @@
+[
+  {
+    "scenario_id": "extraction",
+    "task": "Using only the tool's --describe output above, write the exact command to extract fields from a file called invoice_march.pdf and save the result as a JSON file called output.json."
+  },
+  {
+    "scenario_id": "validation",
+    "task": "Using only the tool's --describe output above, write the exact command to check vendor_agreement.pdf against a checklist file called required_clauses.json, without actually modifying any files."
+  },
+  {
+    "scenario_id": "reconciliation",
+    "task": "Using only the tool's --describe output above, write the exact command to compare bank_records.csv against internal_payments.csv and output only the mismatches in JSON format."
+  },
+  {
+    "scenario_id": "metadata",
+    "task": "Using only the tool's --describe output above, write the exact command to generate metadata for a media item titled Midnight Runners with description An action thriller set in Tokyo, limited to just the genre and language fields."
+  },
+  {
+    "scenario_id": "handoff",
+    "task": "Using only the tool's --describe output above, write the exact command to fetch client record data for client ID CL-88213 without any interactive prompts, suitable for a scheduled/automated environment."
+  }
+]

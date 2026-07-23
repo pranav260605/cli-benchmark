@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{background:#0D0D1A;color:#F1F5F9;font-family:sans-serif;
+     padding:2rem;max-width:750px;margin:0 auto}
+h1{color:#CBA6F7;font-size:1.3rem}
+.rec{background:#0F2A22;border:1px solid #1A4A32;border-radius:10px;
+     padding:1rem;color:#6EE7C0;margin:1rem 0;line-height:1.6}
+.note{background:#2E1B14;border:1px solid #7C2D12;border-radius:10px;
+      padding:.85rem 1rem;color:#F2A38A;font-size:.85rem;margin-bottom:1rem}
+.chart-box{background:#13132B;border:1px solid #2A2A4A;border-radius:10px;
+     padding:1rem;margin-bottom:1rem}
+</style></head>
+<body>
+<h1>Agent-Friendly CLI Benchmark -- 7 Models x 5 Scenarios</h1>
+<div class="rec">-> Use gpt-4o for agent-friendly CLI generation -- 5.2/10 rubric compliance and 20.0% real usability success (a blind agent could actually operate its CLIs).</div>
+<div class="note">
+  Compliance = does the code follow the 10 SKILL.md rules (checked
+  by text search + LLM judge). Usability = did a DIFFERENT blind AI
+  agent actually succeed at using the tool with zero prior knowledge,
+  using only its --describe output. Both matter -- a tool can look
+  correct and still fail in practice.
+</div>
+<div class="chart-box"><canvas id="complianceChart"></canvas></div>
+<div class="chart-box"><canvas id="usabilityChart"></canvas></div>
+<script>
+new Chart(document.getElementById('complianceChart'), {
+  type: 'bar',
+  data: { labels: ["claude-sonnet", "deepseek-v4", "gemini-pro", "gpt-4o", "llama-70b", "llama-8b", "qwen-27b"],
+    datasets: [{label: 'Compliance Score /10',
+      data: [4.6, 3.6, 2.6, 5.2, 3.4, 1.2, 4.6], backgroundColor: '#534AB7'}] },
+  options: {plugins:{title:{display:true,
+    text:'Rubric Compliance (10 rules)',color:'#F1F5F9'}},
+    scales:{y:{max:10,ticks:{color:'#94A3B8'}},
+    x:{ticks:{color:'#94A3B8'}}}}
+});
+new Chart(document.getElementById('usabilityChart'), {
+  type: 'bar',
+  data: { labels: ["claude-sonnet", "deepseek-v4", "gemini-pro", "gpt-4o", "llama-70b", "llama-8b", "qwen-27b"],
+    datasets: [{label: 'Usability Success %',
+      data: [0, 0.0, 0, 20.0, 20.0, 0.0, 0.0], backgroundColor: '#10A37F'}] },
+  options: {plugins:{title:{display:true,
+    text:'Blind-Agent Usability Success Rate',color:'#F1F5F9'}},
+    scales:{y:{max:100,ticks:{color:'#94A3B8'}},
+    x:{ticks:{color:'#94A3B8'}}}}
+});
+</script>
+</body></html>

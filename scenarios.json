@@ -1,0 +1,27 @@
+[
+  {
+    "id": "extraction",
+    "title": "Invoice Field Extraction",
+    "prompt": "Write a Python CLI tool that extracts key fields (invoice date, total amount, vendor name) from a PDF invoice. The output will be consumed automatically by another system as part of a document processing pipeline -- no human will review the output directly. Provide the complete, runnable code."
+  },
+  {
+    "id": "validation",
+    "title": "Contract Clause Validation",
+    "prompt": "Write a Python CLI tool that checks a contract document against a checklist of required clauses (e.g. termination clause, penalty clause, renewal clause) and reports which ones are missing. This will run as one step in an automated compliance pipeline with no human present during execution. Provide the complete, runnable code."
+  },
+  {
+    "id": "reconciliation",
+    "title": "Payment Reconciliation",
+    "prompt": "Write a Python CLI tool that compares two payment CSV files and flags any mismatches between them. This tool is intended to run nightly via a scheduled job with no human present, and its output needs to be consumed by a monitoring system. Provide the complete, runnable code."
+  },
+  {
+    "id": "metadata",
+    "title": "Content Metadata Generation",
+    "prompt": "Write a Python CLI tool that generates content metadata tags (genre, language, duration category) for a media item given its title and description. This tool will be called repeatedly, thousands of times, by an orchestration system processing a media catalog. Provide the complete, runnable code."
+  },
+  {
+    "id": "handoff",
+    "title": "Agent Handoff -- Client Data Fetch",
+    "prompt": "Write a Python CLI tool that fetches a client's record data given a client ID, to be used as one step in a larger multi-step workflow where the output of this tool becomes the input to another automated tool. Provide the complete, runnable code."
+  }
+]
