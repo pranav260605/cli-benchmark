@@ -1,7 +1,6 @@
 """
-DASHBOARD GENERATOR -- Turns the two results files into ONE self-contained
-HTML file: compliance score + usability success rate, side by side,
-per model, with a final recommendation.
+DASHBOARD GENERATOR -- Vibrant Red & Yellow Theme Edition
+Turns benchmark results into a catchy, dynamic, and high-impact HTML dashboard.
 """
 
 import os, json
@@ -49,61 +48,202 @@ def generate_dashboard(compliance_results, usability_results,
     best = summary.get(best_model, {})
 
     recommendation = (
-        f"Use {best_model} for agent-friendly CLI generation -- "
-        f"{best.get('avg_compliance', 0)}/10 rubric compliance and "
-        f"{best.get('usability_rate', 0)}% real usability success "
-        f"(a blind agent could actually operate its CLIs)."
+        f"Top Performer: {best_model} — "
+        f"{best.get('avg_compliance', 0)}/10 rubric compliance & "
+        f"{best.get('usability_rate', 0)}% real usability success!"
     )
 
     html = f"""<!DOCTYPE html>
-<html><head>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent-Friendly CLI Benchmark Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-body{{background:#0D0D1A;color:#F1F5F9;font-family:sans-serif;
-     padding:2rem;max-width:750px;margin:0 auto}}
-h1{{color:#CBA6F7;font-size:1.3rem}}
-.rec{{background:#0F2A22;border:1px solid #1A4A32;border-radius:10px;
-     padding:1rem;color:#6EE7C0;margin:1rem 0;line-height:1.6}}
-.note{{background:#2E1B14;border:1px solid #7C2D12;border-radius:10px;
-      padding:.85rem 1rem;color:#F2A38A;font-size:.85rem;margin-bottom:1rem}}
-.chart-box{{background:#13132B;border:1px solid #2A2A4A;border-radius:10px;
-     padding:1rem;margin-bottom:1rem}}
-</style></head>
+* {{ box-sizing: border-box; margin: 0; padding: 0; }}
+body {{
+  background: #0B0B14;
+  color: #F8FAFC;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  padding: 2.5rem 1.5rem;
+  max-width: 850px;
+  margin: 0 auto;
+  line-height: 1.6;
+}}
+.header {{
+  text-align: center;
+  margin-bottom: 2rem;
+}}
+.header h1 {{
+  font-size: 2.2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #FF2E55, #FFD000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}}
+.header p {{
+  color: #94A3B8;
+  font-size: 0.95rem;
+  font-weight: 500;
+}}
+.rec {{
+  background: linear-gradient(135deg, rgba(255, 46, 85, 0.18), rgba(255, 208, 0, 0.12));
+  border: 2px solid #FF2E55;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  color: #FFE600;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 25px rgba(255, 46, 85, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}}
+.rec-icon {{
+  font-size: 1.8rem;
+}}
+.note {{
+  background: rgba(255, 208, 0, 0.08);
+  border-left: 4px solid #FFD000;
+  border-radius: 0 12px 12px 0;
+  padding: 1rem 1.25rem;
+  color: #E2E8F0;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}}
+.chart-box {{
+  background: #141424;
+  border: 1px solid #2A2A44;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}}
+.chart-box:hover {{
+  border-color: #FF2E55;
+  transform: translateY(-2px);
+}}
+.badge {{
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}}
+.badge-red {{
+  background: rgba(255, 46, 85, 0.2);
+  color: #FF2E55;
+  border: 1px solid #FF2E55;
+}}
+.badge-yellow {{
+  background: rgba(255, 208, 0, 0.2);
+  color: #FFD000;
+  border: 1px solid #FFD000;
+}}
+</style>
+</head>
 <body>
-<h1>Agent-Friendly CLI Benchmark -- 7 Models x 5 Scenarios</h1>
-<div class="rec">-> {recommendation}</div>
-<div class="note">
-  Compliance = does the code follow the 10 SKILL.md rules (checked
-  by text search + LLM judge). Usability = did a DIFFERENT blind AI
-  agent actually succeed at using the tool with zero prior knowledge,
-  using only its --describe output. Both matter -- a tool can look
-  correct and still fail in practice.
+
+<div class="header">
+  <h1>⚡ Agent-Friendly CLI Benchmark</h1>
+  <p>7 Models × 5 Scenarios • Multi-Layer Evaluation</p>
 </div>
-<div class="chart-box"><canvas id="complianceChart"></canvas></div>
-<div class="chart-box"><canvas id="usabilityChart"></canvas></div>
+
+<div class="rec">
+  <span class="rec-icon">🔥</span>
+  <div>{recommendation}</div>
+</div>
+
+<div class="note">
+  <strong style="color:#FFD000;">📌 Benchmark Methodology:</strong><br>
+  • <strong style="color:#FF2E55;">Layer 1 (Compliance):</strong> Checks 10 SKILL.md rules via static search + LLM Judge.<br>
+  • <strong style="color:#FFD000;">Layer 2 (Usability):</strong> Tests if a completely <em>blind AI agent</em> can operate the generated tool using only its <code>--describe</code> self-documentation.
+</div>
+
+<div class="chart-box">
+  <span class="badge badge-red">Layer 1 Evaluation</span>
+  <canvas id="complianceChart"></canvas>
+</div>
+
+<div class="chart-box">
+  <span class="badge badge-yellow">Layer 2 Real Execution</span>
+  <canvas id="usabilityChart"></canvas>
+</div>
+
 <script>
 new Chart(document.getElementById('complianceChart'), {{
   type: 'bar',
-  data: {{ labels: {json.dumps(models)},
-    datasets: [{{label: 'Compliance Score /10',
-      data: {json.dumps(compliance_arr)}, backgroundColor: '#534AB7'}}] }},
-  options: {{plugins:{{title:{{display:true,
-    text:'Rubric Compliance (10 rules)',color:'#F1F5F9'}}}},
-    scales:{{y:{{max:10,ticks:{{color:'#94A3B8'}}}},
-    x:{{ticks:{{color:'#94A3B8'}}}}}}}}
+  data: {{
+    labels: {json.dumps(models)},
+    datasets: [{{
+      label: 'Compliance Score (/10)',
+      data: {json.dumps(compliance_arr)},
+      backgroundColor: 'rgba(255, 46, 85, 0.85)',
+      borderColor: '#FF2E55',
+      borderWidth: 2,
+      borderRadius: 8
+    }}]
+  }},
+  options: {{
+    responsive: true,
+    plugins: {{
+      title: {{
+        display: true,
+        text: 'Rubric Compliance (10 Agent-Friendly Rules)',
+        color: '#F8FAFC',
+        font: {{ size: 16, weight: 'bold' }}
+      }},
+      legend: {{ labels: {{ color: '#94A3B8' }} }}
+    }},
+    scales: {{
+      y: {{ max: 10, min: 0, ticks: {{ color: '#94A3B8' }}, grid: {{ color: '#2A2A44' }} }},
+      x: {{ ticks: {{ color: '#F8FAFC', font: {{ weight: 'bold' }} }}, grid: {{ display: false }} }}
+    }}
+  }}
 }});
+
 new Chart(document.getElementById('usabilityChart'), {{
   type: 'bar',
-  data: {{ labels: {json.dumps(models)},
-    datasets: [{{label: 'Usability Success %',
-      data: {json.dumps(usability_arr)}, backgroundColor: '#10A37F'}}] }},
-  options: {{plugins:{{title:{{display:true,
-    text:'Blind-Agent Usability Success Rate',color:'#F1F5F9'}}}},
-    scales:{{y:{{max:100,ticks:{{color:'#94A3B8'}}}},
-    x:{{ticks:{{color:'#94A3B8'}}}}}}}}
+  data: {{
+    labels: {json.dumps(models)},
+    datasets: [{{
+      label: 'Usability Success Rate (%)',
+      data: {json.dumps(usability_arr)},
+      backgroundColor: 'rgba(255, 208, 0, 0.85)',
+      borderColor: '#FFD000',
+      borderWidth: 2,
+      borderRadius: 8
+    }}]
+  }},
+  options: {{
+    responsive: true,
+    plugins: {{
+      title: {{
+        display: true,
+        text: 'Blind-Agent Execution Success Rate (%)',
+        color: '#F8FAFC',
+        font: {{ size: 16, weight: 'bold' }}
+      }},
+      legend: {{ labels: {{ color: '#94A3B8' }} }}
+    }},
+    scales: {{
+      y: {{ max: 100, min: 0, ticks: {{ color: '#94A3B8' }}, grid: {{ color: '#2A2A44' }} }},
+      x: {{ ticks: {{ color: '#F8FAFC', font: {{ weight: 'bold' }} }}, grid: {{ display: false }} }}
+    }}
+  }}
 }});
 </script>
-</body></html>"""
+</body>
+</html>"""
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
@@ -120,5 +260,3 @@ if __name__ == "__main__":
     with open("results/usability_scores.json") as f:
         usab = json.load(f)
     generate_dashboard(comp, usab)
-    
-    
